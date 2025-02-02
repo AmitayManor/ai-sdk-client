@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.android.application)
+    id("com.android.library")
 }
 
 android {
@@ -7,12 +7,12 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.library"
-        minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+//        applicationId = "com.example.library"
+//        targetSdk = 34
+//        versionCode = 1
+//        versionName = "1.0"
 
+        minSdk = 24
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -26,12 +26,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
 dependencies {
+//    //TODO: Check if dynamic feature is correct
+//    implementation(project(":app"))
+
     implementation(libs.appcompat)
     implementation(libs.material)
     testImplementation(libs.junit)

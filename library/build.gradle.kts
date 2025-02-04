@@ -10,10 +10,6 @@ android {
     defaultConfig {
         minSdk = 24
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        group = "com.github.AmitayManor"
-        artifact = "ai-sdk-client"
-        version = "1.0.2"
     }
 
     buildTypes {
@@ -37,6 +33,20 @@ android {
         }
     }
 }
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                from(components["release"])
+
+                groupId = "com.github.AmitayManor"
+                artifactId = "ai-sdk-client"
+                version = project.version.toString()
+            }
+        }
+    }
+}
+
 
 dependencies {
 
@@ -52,18 +62,4 @@ dependencies {
     implementation(libs.okhttp.logging)
     implementation(libs.gson)
 
-}
-
-publishing {
-    publications {
-        register<MavenPublication>("release") {
-            groupId = "com.github.AmitayManor"
-            artifactId = "ai-sdk-client"
-            version = "1.0.2"
-
-            afterEvaluate {
-                from(components["release"])
-            }
-        }
-    }
 }

@@ -1,5 +1,6 @@
 [versions]
 agp = "8.8.0"
+aiSdkClient = "1.0.0"
 core = "4.6.2"
 glide = "4.16.0"
 junit = "4.13.2"
@@ -14,6 +15,7 @@ okhttp = "4.12.0"
 gson = "2.10.1"
 
 [libraries]
+ai-sdk-client = { module = "com.github.AmitayManor:ai-sdk-client", version.ref = "aiSdkClient" }
 core = { module = "io.noties.markwon:core", version.ref = "core" }
 ext-strikethrough = { module = "io.noties.markwon:ext-strikethrough", version.ref = "core" }
 ext-tables = { module = "io.noties.markwon:ext-tables", version.ref = "core" }

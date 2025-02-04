@@ -41,7 +41,6 @@ afterEvaluate {
 
                 groupId = "com.github.AmitayManor"
                 artifactId = "ai-sdk-client"
-                version = project.version.toString()
             }
         }
     }

@@ -40,8 +40,8 @@ android {
 dependencies {
 
     // actual library
-    //implementation(libs.ai.sdk.client)
-    implementation(project(":library"))
+    implementation(libs.ai.sdk.client)
+    //implementation(project(":library"))
 
     implementation(libs.appcompat)
     implementation(libs.material)

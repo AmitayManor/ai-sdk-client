@@ -22,5 +22,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "ai-sdk-client"
 include(":app")
-include(":library")
+//include(":library")
 

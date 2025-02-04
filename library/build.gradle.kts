@@ -57,7 +57,7 @@ publishing {
     publications {
         register<MavenPublication>("release") {
             groupId = "com.github.AmitayManor"
-            artifactId = "ai-sdk"
+            artifactId = "ai-sdk-client"
             version = "1.0.0"
 
             afterEvaluate {

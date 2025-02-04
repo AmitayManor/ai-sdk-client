@@ -16,10 +16,6 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-//    //TODO: Check if the dynamic feature is correct
-//    //dynamicFeatures.add(":library")
-//    dynamicFeatures += setOf(":library")
-
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -44,7 +40,7 @@ android {
 dependencies {
 
     // actual library
-    implementation (project(":library"))
+    implementation("com.github.AmitayManor:ai-sdk:1.0.0")
 
     implementation(libs.appcompat)
     implementation(libs.material)

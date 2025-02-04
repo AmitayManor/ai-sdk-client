@@ -12,7 +12,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         group = "com.github.AmitayManor"
-        version = "1.0.0"
+        version = "1.0.1"
     }
 
     buildTypes {
@@ -58,7 +58,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "com.github.AmitayManor"
             artifactId = "ai-sdk-client"
-            version = "1.0.0"
+            version = "1.0.1"
 
             afterEvaluate {
                 from(components["release"])

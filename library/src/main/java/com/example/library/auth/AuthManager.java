@@ -7,12 +7,12 @@ import com.example.library.network.ApiClient;
 import com.example.library.network.api.AiApiService;
 import com.example.library.network.models.AuthResponse;
 import com.example.library.network.models.LoginRequest;
+import com.example.library.network.models.SignupRequest;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AuthManager {
-
     private static final String PREF_NAME = "ai_sdk_prefs";
     private static final String KEY_AUTH_TOKEN = "auth_token";
 
@@ -20,9 +20,8 @@ public class AuthManager {
     private final SharedPreferences preferences;
     private final AiApiService apiService;
 
-    // Interface for authentication callbacks
     public interface AuthCallback {
-        void onSuccess(String token);
+        void onSuccess(String result);
         void onError(String error);
     }
 
@@ -32,20 +31,33 @@ public class AuthManager {
         this.apiService = ApiClient.getInstance();
     }
 
-    /**
-     * Logs in a user with email and password.
-     * Stores the authentication token if successful.
-     */
+    public void signup(String email, String password, @NonNull AuthCallback callback) {
+        SignupRequest request = new SignupRequest(email, password);
+        apiService.signup(request).enqueue(new Callback<AuthResponse>() {
+            @Override
+            public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess("Signup successful. Please check your email for verification.");
+                } else {
+                    callback.onError("Signup failed: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AuthResponse> call, Throwable t) {
+                callback.onError("Network error: " + t.getMessage());
+            }
+        });
+    }
+
     public void login(String email, String password, @NonNull AuthCallback callback) {
         LoginRequest request = new LoginRequest(email, password);
-
         apiService.login(request).enqueue(new Callback<AuthResponse>() {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     AuthResponse authResponse = response.body();
                     if (authResponse.getToken() != null) {
-                        // Store token and notify success
                         saveAuthToken(authResponse.getToken());
                         callback.onSuccess(authResponse.getToken());
                     } else {
@@ -63,39 +75,24 @@ public class AuthManager {
         });
     }
 
-    /**
-     * Returns the stored authentication token.
-     * Returns null if no token is stored.
-     */
     public String getAuthToken() {
         return preferences.getString(KEY_AUTH_TOKEN, null);
     }
 
-    /**
-     * Returns whether the user is currently authenticated.
-     */
     public boolean isAuthenticated() {
         return getAuthToken() != null;
     }
 
-    /**
-     * Logs out the current user by clearing the stored token.
-     */
     public void logout() {
         preferences.edit().remove(KEY_AUTH_TOKEN).apply();
     }
 
-    // Internal method to save the authentication token
-    private void saveAuthToken(String token) {
-        preferences.edit().putString(KEY_AUTH_TOKEN, token).apply();
-    }
-
-    /**
-     * Returns the authorization header value for API requests.
-     * Returns null if no token is stored.
-     */
     public String getAuthorizationHeader() {
         String token = getAuthToken();
         return token != null ? "Bearer " + token : null;
+    }
+
+    private void saveAuthToken(String token) {
+        preferences.edit().putString(KEY_AUTH_TOKEN, token).apply();
     }
 }

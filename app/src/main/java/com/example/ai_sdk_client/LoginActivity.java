@@ -2,64 +2,66 @@ package com.example.ai_sdk_client;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.ai_sdk_client.databinding.ActivityLoginBinding;
 import com.example.library.AiSdk;
 import com.example.library.auth.AuthManager;
 
 public class LoginActivity extends AppCompatActivity {
-    private EditText emailInput;
-    private EditText passwordInput;
-    private Button loginButton;
-    private ProgressBar loadingIndicator;
+    private static final String TAG = "LoginActivity";
     private ActivityLoginBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
-        setContentView(R.layout.activity_login);
+        setContentView(binding.getRoot());
 
-        // Initialize SDK
         AiSdk.initialize(this);
 
-        // Set up UI
-        emailInput = findViewById(R.id.emailInput);
-        passwordInput = findViewById(R.id.passwordInput);
-        loginButton = findViewById(R.id.loginButton);
-        loadingIndicator = findViewById(R.id.loadingIndicator);
-
-        binding.loginButton.setOnClickListener(v -> {
-            binding.loadingIndicator.setVisibility(View.VISIBLE);
-            attemptLogin();
-        });
+        binding.loginButton.setOnClickListener(v -> attemptLogin());
+        binding.signupButton.setOnClickListener(v -> startActivity(new Intent(this, SignupActivity.class)));
     }
 
     private void attemptLogin() {
-        String email = emailInput.getText().toString();
-        String password = passwordInput.getText().toString();
+        String email = binding.emailInput.getText().toString().trim();
+        String password = binding.passwordInput.getText().toString();
+
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        binding.loadingIndicator.setVisibility(View.VISIBLE);
+        binding.loginButton.setEnabled(false);
 
         AiSdk.getInstance().getAuthManager().login(email, password, new AuthManager.AuthCallback() {
             @Override
             public void onSuccess(String token) {
-                loadingIndicator.setVisibility(View.GONE);
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                finish();
+                runOnUiThread(() -> {
+                    binding.loadingIndicator.setVisibility(View.GONE);
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    finish();
+                });
             }
 
             @Override
             public void onError(String error) {
-                loadingIndicator.setVisibility(View.GONE);
-                Toast.makeText(LoginActivity.this, error, Toast.LENGTH_SHORT).show();
+                runOnUiThread(() -> {
+                    binding.loadingIndicator.setVisibility(View.GONE);
+                    binding.loginButton.setEnabled(true);
+                    Toast.makeText(LoginActivity.this, error, Toast.LENGTH_SHORT).show();
+                });
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding = null;
     }
 }

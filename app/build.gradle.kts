@@ -54,4 +54,7 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation (libs.glide)
+    implementation(libs.core)
+    implementation(libs.ext.strikethrough)
+    implementation(libs.ext.tables)
 }

@@ -1,10 +1,14 @@
 package com.example.library.network.models;
 
+import com.google.gson.annotations.SerializedName;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ModelRequest {
+    @SerializedName("model_type")
     private String modelType;
+
+    @SerializedName("input_data")
     private Map<String, Object> inputData;
 
     public ModelRequest(String modelType, String prompt) {
@@ -13,7 +17,6 @@ public class ModelRequest {
         this.inputData.put("prompt", prompt);
     }
 
-    // Getter methods for Gson serialization
     public String getModelType() {
         return modelType;
     }

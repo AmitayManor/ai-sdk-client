@@ -9,7 +9,7 @@
         android:id="@+id/titleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/title_text"
+        android:text="Create Account"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,32 +34,22 @@
         android:inputType="textPassword"
         app:layout_constraintTop_toBottomOf="@id/emailInput" />
 
-    <Button
-        android:id="@+id/loginButton"
+    <EditText
+        android:id="@+id/confirmPasswordInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Login"
-        app:layout_constraintTop_toBottomOf="@id/passwordInput" />
-
-    <TextView
-        android:id="@+id/orText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="OR"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginButton" />
+        android:hint="Confirm Password"
+        android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@id/passwordInput" />
 
     <Button
         android:id="@+id/signupButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:text="Sign Up"
-        android:backgroundTint="@android:color/darker_gray"
-        app:layout_constraintTop_toBottomOf="@id/orText" />
+        app:layout_constraintTop_toBottomOf="@id/confirmPasswordInput" />
 
     <ProgressBar
         android:id="@+id/loadingIndicator"

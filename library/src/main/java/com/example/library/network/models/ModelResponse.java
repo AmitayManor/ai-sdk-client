@@ -16,10 +16,7 @@ public class ModelResponse {
     @SerializedName("error_msg")
     private String errorMessage;
 
-    @SerializedName("processing_time")
-    private long processingTime;
-
-    // Essential getter methods
+    // Get methods
     public String getId() {
         return id;
     }
@@ -43,6 +40,16 @@ public class ModelResponse {
 
     // Helper method to check if the request was successful
     public boolean isSuccessful() {
-        return "completed".equals(status) && errorMessage == null;
+        return "completed".equals(status) && (errorMessage == null || errorMessage.isEmpty());
+    }
+
+    @Override
+    public String toString() {
+        return "ModelResponse{" +
+                "id='" + id + '\'' +
+                ", status='" + status + '\'' +
+                ", output='" + getTextOutput() + '\'' +
+                ", error='" + errorMessage + '\'' +
+                '}';
     }
 }

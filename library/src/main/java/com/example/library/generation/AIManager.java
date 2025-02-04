@@ -11,13 +11,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AIManager {
-    // Single model type for text generation
     public static final String MODEL_TYPE_TEXT = "text2text";
-
     private final AuthManager authManager;
     private final AiApiService apiService;
 
-    // Callback interface for generation results
     public interface GenerationCallback {
         void onSuccess(ModelResponse response);
         void onError(String error);
@@ -28,11 +25,6 @@ public class AIManager {
         this.apiService = ApiClient.getInstance();
     }
 
-    /**
-     * Generates text using the text-to-text model.
-     * @param prompt The text prompt to generate from
-     * @param callback Callback to handle the response
-     */
     public void generateText(@NonNull String prompt, @NonNull GenerationCallback callback) {
         if (!authManager.isAuthenticated()) {
             callback.onError("Not authenticated. Please log in first.");
@@ -44,13 +36,16 @@ public class AIManager {
 
         apiService.generateContent(authHeader, request).enqueue(new Callback<ModelResponse>() {
             @Override
-            public void onResponse(Call<ModelResponse> call, Response<ModelResponse> response) {
+            public void onResponse(@NonNull Call<ModelResponse> call, @NonNull Response<ModelResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     ModelResponse result = response.body();
-                    if (result.isSuccessful()) {
+                    if (result.isSuccessful() && result.getTextOutput() != null) {
                         callback.onSuccess(result);
                     } else {
-                        callback.onError("Generation failed: " + result.getErrorMessage());
+                        String error = result.getErrorMessage();
+                        callback.onError(error != null && !error.isEmpty()
+                                ? error
+                                : "Failed to generate text");
                     }
                 } else {
                     callback.onError("Server error: " + response.message());
@@ -58,7 +53,7 @@ public class AIManager {
             }
 
             @Override
-            public void onFailure(Call<ModelResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<ModelResponse> call, @NonNull Throwable t) {
                 callback.onError("Network error: " + t.getMessage());
             }
         });

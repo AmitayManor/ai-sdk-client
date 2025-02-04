@@ -40,7 +40,7 @@ android {
 dependencies {
 
     // actual library
-    implementation("com.github.AmitayManor:ai-sdk:1.0.0")
+    implementation(libs.ai.sdk.client)
 
     implementation(libs.appcompat)
     implementation(libs.material)

@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
     private static volatile AiApiService instance;
-    private static final String BASE_URL = "https://tpuhjnicfmhvgoufjvvn.supabase.co";
+    private static final String BASE_URL = "https://fit-harmonia-amitay-14e003a8.koyeb.app";
 
     public static AiApiService getInstance() {
         if (instance == null) {

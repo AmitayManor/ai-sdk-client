@@ -10,7 +10,7 @@ public class ModelRequest {
     public ModelRequest(String modelType, String prompt) {
         this.modelType = modelType;
         this.inputData = new HashMap<>();
-        this.inputData.put("input", prompt);
+        this.inputData.put("prompt", prompt);
     }
 
     // Getter methods for Gson serialization

@@ -1,5 +1,6 @@
 plugins {
     id("com.android.library")
+    id("maven-publish")
 }
 
 android {
@@ -7,13 +8,11 @@ android {
     compileSdk = 34
 
     defaultConfig {
-//        applicationId = "com.example.library"
-//        targetSdk = 34
-//        versionCode = 1
-//        versionName = "1.0"
-
         minSdk = 24
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        group = "com.github.AmitayManor"
+        version = "1.0.0"
     }
 
     buildTypes {
@@ -29,11 +28,16 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 dependencies {
-//    //TODO: Check if dynamic feature is correct
-//    implementation(project(":app"))
 
     implementation(libs.appcompat)
     implementation(libs.material)
@@ -47,4 +51,18 @@ dependencies {
     implementation(libs.okhttp.logging)
     implementation(libs.gson)
 
+}
+
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            groupId = "com.github.AmitayManor"
+            artifactId = "ai-sdk"
+            version = "1.0.0"
+
+            afterEvaluate {
+                from(components["release"])
+            }
+        }
+    }
 }

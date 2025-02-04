@@ -16,10 +16,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        //includeBuild('library')
+        maven { url = uri("https://jitpack.io")}
     }
 }
 
 rootProject.name = "ai-sdk-client"
 include(":app")
-include(":library")
+

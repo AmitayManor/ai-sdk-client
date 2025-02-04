@@ -12,6 +12,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         group = "com.github.AmitayManor"
+        artifact = "ai-sdk-client"
         version = "1.0.2"
     }
 
